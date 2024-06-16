@@ -1,2 +1,23 @@
 ---
+apiVersion: tekton.dev/v1
 kind: Task
+metadata:
+  name: swift-compiler
+spec:
+  params:
+    - name: compilerImage
+      type: string
+      description: "Location of the image with the Swift Linux toolchain"
+      default: "ghcr.io/tux-o-matic/swift-tekton:main"
+  steps:
+    - name: compile
+      image: "$(params.compilerImage)"
+      workingDir: /workspace/source/
+      script: |
+        swift build --configuration release --swift-sdk x86_64-swift-linux-musl
+      volumeMounts:
+        - mountPath: /workspace/source/
+          name: source
+  volumes:
+    - name: source
+
