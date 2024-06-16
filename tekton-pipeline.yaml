@@ -1,2 +1,28 @@
 ---
+apiVersion: tekton.dev/v1
 kind: Pipeline
+metadata:
+  name: pipeline-swift
+spec:
+  workspaces:
+    - name: source
+  tasks:
+    - name: git-clone
+      taskRef:
+        name: git-clone
+      workspaces:
+        - name: source
+    - name: compile-swift-project
+      taskRef:
+        name: swift-compiler
+      workspaces:
+        - name: source
+      runAfter:
+        - git-clone
+    - name: build-and-push
+      taskRef:
+        name: buildah
+      workspaces:
+        - name: source
+      runAfter:
+        - compile-swift-project
