@@ -6,7 +6,7 @@ RUN microdnf install -y git gcc-c++ libcurl-devel libedit-devel libuuid-devel li
     microdnf clean all
 
 RUN export today=$(date '+%Y-%m-%d') && \
-    export day_before=0 && /
+    export day_before=0 && \
     export day_of_week=$(date '+%w') && \
     if (( day_of_week < 2 )) || (( day_of_week > 4 )); then export day_before=4; fi && \
     export last_nightly=$(date --date="${today} -${day_of_week} day" '+%Y-%m-%d') && \
