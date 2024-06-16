@@ -6,8 +6,12 @@ RUN microdnf install -y git gcc-c++ libcurl-devel libedit-devel libuuid-devel li
     microdnf clean all
 
 RUN export today=$(date '+%Y-%m-%d') && \
-    export yesterday=$(date --date="${today} -1 day" '+%Y-%m-%d') && \
-    curl -o swift.tar.gz "https://download.swift.org/swift-6.0-branch/ubi9/swift-6.0-DEVELOPMENT-SNAPSHOT-${yesterday}-a/swift-6.0-DEVELOPMENT-SNAPSHOT-${yesterday}-a-ubi9.tar.gz" && \
+    export day_before=0 && /
+    export day_of_week=$(date '+%w') && \
+    if (( day_of_week < 2 )) || (( day_of_week > 4 )); then export day_before=4; fi && \
+    export last_nightly=$(date --date="${today} -${day_of_week} day" '+%Y-%m-%d') && \
+    echo "${last_nightly}" && \
+    curl -o swift.tar.gz "https://download.swift.org/swift-6.0-branch/ubi9/swift-6.0-DEVELOPMENT-SNAPSHOT-${last_nightly}-a/swift-6.0-DEVELOPMENT-SNAPSHOT-${last_nightly}-a-ubi9.tar.gz" && \
     tar zxf swift.tar.gz && \
     rm -fr swift.tar.gz && \
     mv swift* swift && \
