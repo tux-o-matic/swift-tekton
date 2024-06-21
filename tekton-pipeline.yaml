@@ -4,15 +4,55 @@ kind: Pipeline
 metadata:
   name: pipeline-swift
 spec:
+  description: |
+    Pipeline to build a Swift application with static library on bare minimal image.
+  params:
+    - name: app-name
+      type: string 
+      description: "Name of the application to build"
+    - name: repo-url
+      type: string
+      description: "The git repo URL to clone from."
+    - name: git-revision
+      type: string
+      description: "Revision to checkout. (branch, tag, sha, ref, etc...)"
+      default: ""
+    - name: git-refspec
+      type: string
+      description: "Refspec to fetch before checking out revision."
+      default: ""
+    - name: compilerImage
+      type: string
+      description: "Image with Swift SDK to compile application."
+    - name: registry-url
+      type: string
+      description: "URL of the container registry to push the built image to."
+    - name: registry-org
+      type: string
+      description: "The organization of the container registry to push the built image to."
+    - name: image-tag
+      type: string
+      description: "Tag of the image to build"
   workspaces:
     - name: source
+      description: Workspace containing the clone source code and compiled binary before adding it to an image.
   tasks:
     - name: git-clone
+      params:
+        - name: url
+          value: $(params.repo-url)
+        - name: revision
+          value: $(params.git-revision)
+        - name: refspec
+          value: $(params.git-refspec)
       taskRef:
         name: git-clone
       workspaces:
         - name: source
     - name: compile-swift-project
+      params:
+        - name: compilerImage
+          value: $(params.compilerImage)
       taskRef:
         name: swift-compiler
       workspaces:
@@ -20,6 +60,11 @@ spec:
       runAfter:
         - git-clone
     - name: build-and-push
+      params:
+        - name: IMAGE
+          value: "$(params.registry-url)/$(params.registry-org)/$(params.app-name):$(params.image-tag)"
+        - name: BUILD_EXTRA_ARGS
+          value: "--build-arg binary=$(params.app-name)"
       taskRef:
         name: buildah
       workspaces:
