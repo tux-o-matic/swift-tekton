@@ -8,7 +8,8 @@ RUN microdnf install -y git gcc-c++ libcurl-devel libedit-devel libuuid-devel li
 RUN export today=$(date '+%Y-%m-%d') && \
     export day_before=0 && \
     export day_of_week=$(date '+%w') && \
-    if ((day_of_week == 5 )); export day_before=1; else if (( day_of_week < 2 )) || (( day_of_week > 5 )); then export day_before=4; fi; fi && \
+    if (( day_of_week < 2 )) || (( day_of_week > 5 )); then export day_before=4; fi && \
+    if ((day_of_week == 5 )); then export day_before=1; fi && \
     export last_nightly=$(date --date="${today} -${day_before} day" '+%Y-%m-%d') && \
     echo "Downloading Swift development snapshot from ${last_nightly}" && \
     curl -o swift.tar.gz "https://download.swift.org/swift-6.0-branch/ubi9/swift-6.0-DEVELOPMENT-SNAPSHOT-${last_nightly}-a/swift-6.0-DEVELOPMENT-SNAPSHOT-${last_nightly}-a-ubi9.tar.gz" && \
