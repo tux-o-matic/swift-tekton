@@ -16,6 +16,6 @@ RUN export today=$(date '+%Y-%m-%d') && \
     rm -fr swift.tar.gz && \
     mv swift* swift && \
     chmod -R o+x /swift/usr/bin/ && \
-    /swift/usr/bin/swift sdk install https://download.swift.org/swift-6.0-branch/static-sdk/swift-6.0-DEVELOPMENT-SNAPSHOT-2024-06-08-a/swift-6.0-DEVELOPMENT-SNAPSHOT-2024-06-08-a_static-linux-0.0.1.artifactbundle.tar.gz && \
+    /swift/usr/bin/swift sdk install https://download.swift.org/swift-6.0-branch/static-sdk/swift-6.0-DEVELOPMENT-SNAPSHOT-2024-06-13-a/swift-6.0-DEVELOPMENT-SNAPSHOT-2024-06-13-a_static-linux-0.0.1.artifactbundle.tar.gz && \
     /swift/usr/bin/swift sdk list
 
