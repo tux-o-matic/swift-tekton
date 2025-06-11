@@ -12,6 +12,7 @@ RUN echo "Downloading Swiftly" && \
     tar zxf swiftly-$(uname -m).tar.gz && \
     rm -fr swiftly-$(uname -m).tar.gz && \
     chmod -R o+x swiftly && \
+    ./swiftly init --quiet-shell-followup && \
     ./swiftly install --use 6.1.2 --quiet-shell-followup && \
     $SWIFTLY_BIN_DIR/swift --version && \
     $SWIFTLY_BIN_DIR/swift sdk install https://download.swift.org/swift-6.1.2-release/static-sdk/swift-6.1.2-RELEASE/swift-6.1.2-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz && \
