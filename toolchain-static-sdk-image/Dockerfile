@@ -15,6 +15,6 @@ RUN echo "Downloading Swiftly" && \
     ./swiftly init --quiet-shell-followup && \
     $SWIFTLY_BIN_DIR/swiftly install --use 6.1.2 && \
     $SWIFTLY_BIN_DIR/swift --version && \
-    $SWIFTLY_BIN_DIR/swift sdk install https://download.swift.org/swift-6.1.2-release/static-sdk/swift-6.1.2-RELEASE/swift-6.1.2-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz && \
+    $SWIFTLY_BIN_DIR/swift sdk install https://download.swift.org/swift-6.1.2-release/static-sdk/swift-6.1.2-RELEASE/swift-6.1.2-RELEASE_static-linux-0.0.1.artifactbundle.tar.gz --checksum df0b40b9b582598e7e3d70c82ab503fd6fbfdff71fd17e7f1ab37115a0665b3b && \
     $SWIFTLY_BIN_DIR/swift sdk list
 
